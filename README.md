@@ -22,7 +22,53 @@ On the frontend, it's a rich single-page webapp built in TypeScript and React, u
 
 ### Backend Dev
 
-This requires your own [Azure subscription](https://azure.com/free/?WT.mc_id=devto-blog-emwalker). As a warning: this costs money to run! If you don't already have an Azure account/subscription, you'll get a few hundred bucks to use your first month, but if that's not the case you will want to keep an eye on the fact that **running this backend will cost you actual money**. These costs are small for development purposes - you can use the free tier of both SignalR Service and Azure functions, you just need to pay for a small Redis instance.
+After cloning this repo, the `server` directory contains all of the backend code. You may want to run `npm install` within the `server` directory to pull in dependencies for IDE autocompletion and such. 
+
+However, you cannot actually run the backend locally. You'll need to deploy your own server instance of the backend to test changes.
+
+If you have changes to push up to a server backend, there are three recommended ways to make a code deploy:
+
+### GitHub Actions
+
+TODO
+
+### VS Code
+
+TODO
+
+### CLI
+
+TODO
+
+## Deploying This Project
+Currently, this project only runs on Azure. This requires your own [Azure subscription](https://azure.com/free/?WT.mc_id=devto-blog-emwalker). 
+
+If you don't already have an Azure account/subscription, you'll get a few hundred bucks of credits to use your first month, but if that's not the case you will want to keep an eye on the fact that **running this backend will cost you actual money**. 
+
+### Deploying via ARM Template
+
+![Button here]()
+
+The easiest way to deploy a backend is to use the template we have prepared. Going to [this link](TODO) will deploy a fully-functioning instance of the latest code in this repo to an Azure resource group you specify. From there, you can deploy your own custom fork of the backend however you would like (see instructions above).
+
+There are still a few things you need to manually configure:
+
+1. TODO: Auth setup?
+2. You'll need to modify the frontend to actually use your new backend! In `src/config.ts`, update the hostname to point to your own Function App instance (the Azure URL for your backend you've just deployed).
+
+If you're interested in viewing the raw ARM template yourself, it's available [here](TODO).
+
+### Costs and Scaling
+
+For development purposes, you can use the free tier of both SignalR Service and Azure functions, you just need to pay for a small Redis instance (~$15/month).
+
+To get this ready for production use, all you need to do is scale up your SignalR Service usage tier. Running this project with a single SignalR unit (good for up to 1,000 concurrent users) will cost you roughly $2.50 per day, with each additional SignalR unit (another 1,000 concurrents) adding roughly an additional $1.50 per day. These numbers are all rough ballpark figures.
+
+This is the only thing you will need to manually scale. Azure Functions charges you based on usage, and it's extremely unlikely you'll need to scale up Redis unless you have tens of thousands of concurrent users. At Roguelike Celebration, with an average of around 300 concurrent users, we never hit more than a few hundred kilobytes of Redis data or used even 1% of our processing power.
+
+### Manual Deployment Instructions
+
+If you would prefer to not use the ARM template above, here is how you can manually configure a set of Azure resources to run this project.
 
 1. Deploy the `server` folder to a new Azure Function App instance you control. I recommend using VS Code and the VS Code Azure Functions extension. See the "Publish the project to Azure" section of [this tutorial](https://docs.microsoft.com/en-us/azure/azure-functions/functions-create-first-function-vs-code?pivots=programming-language-javascript?WT.mc_id=github-code-emwalker) for details. You can also use the Azure CLI or any other method.
 
@@ -38,7 +84,7 @@ This requires your own [Azure subscription](https://azure.com/free/?WT.mc_id=dev
 
 7) Set up CORS in the Azure Portal page for the Function app. There's a "CORS" menu item on the left. Allow `http://localhost:1234` for local development, as well as whatever URLs you're using for a production version of the frontend.
 
-8) In `src/config.ts` in this repo, update the hostname to point to your own Function App instance.
+8) In `src/config.ts` in this repo, update the hostname to point to your own Function App instance (the Azure URL for your backend, NOT wherever you're hosting the app's frontend).
 
 ## Editing the map
 The ASCII map was created with [MonoDraw](https://monodraw.helftone.com), a Mac-only ASCII art tool. You'll want to open the `map.monopic` file in that, export your changes, paste the ASCII string into `src/components/MapView.tsx`, and then update any changes to the two datasets of persistence identifiers and clickable areas. Note that the coordinates listed in the MonoDraw view are 1-indexed, whereas the app itself expects 0-indexed coordinates.
