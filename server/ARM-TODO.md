@@ -1,5 +1,6 @@
 * Replace parameter names with template values and/or random values
 * Parameterize Redis properties
+* Parameterize server farm
 * Are all of these necessary?
   * microsoft.insights/components
   * Microsoft.Web/serverfarms
@@ -13,3 +14,4 @@
     * Where do I set them? (Microsoft.Web/sites, maybe? What's the difference between app settings, connection strings, etc)
     * ListKeys to get the actual value: https://stackoverflow.com/questions/43976134/get-connection-strings-in-arm/43991714
 * Can I enable authentication?
+* smartdetectoralertrules — parameterize the external ID? Maybe just look at a template for this?

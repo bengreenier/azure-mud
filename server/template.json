@@ -1,5 +1,5 @@
 {
-    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
         "serverfarms_EastUSPlan_name": {
@@ -14,10 +14,10 @@
             "defaultValue": "roguelikecelebration-mud",
             "type": "String"
         },
-        "components_roguelikecelebrationmud2_name": {
-            "defaultValue": "roguelikecelebrationmud2",
-            "type": "String"
-        },
+        // "components_roguelikecelebrationmud2_name": {
+        //     "defaultValue": "roguelikecelebrationmud2",
+        //     "type": "String"
+        // },
         "SignalR_roguelikecelebration_mud_name": {
             "defaultValue": "roguelikecelebration-mud",
             "type": "String"
@@ -26,14 +26,14 @@
             "defaultValue": "roguelikecelebrationmud2",
             "type": "String"
         },
-        "smartdetectoralertrules_failure_anomalies___roguelikecelebrationmud2_name": {
-            "defaultValue": "failure anomalies - roguelikecelebrationmud2",
-            "type": "String"
-        },
-        "actiongroups_application_insights_smart_detection_externalid": {
-            "defaultValue": "/subscriptions/aacb5cc0-629c-45aa-84e5-a53327fa1aae/resourceGroups/lazerwalkerfunctionhello/providers/microsoft.insights/actiongroups/application insights smart detection",
-            "type": "String"
-        }
+        // "smartdetectoralertrules_failure_anomalies___roguelikecelebrationmud2_name": {
+        //     "defaultValue": "failure anomalies - roguelikecelebrationmud2",
+        //     "type": "String"
+        // },
+        // "actiongroups_application_insights_smart_detection_externalid": {
+        //     "defaultValue": "/subscriptions/aacb5cc0-629c-45aa-84e5-a53327fa1aae/resourceGroups/lazerwalkerfunctionhello/providers/microsoft.insights/actiongroups/application insights smart detection",
+        //     "type": "String"
+        // }
     },
     "variables": {},
     "resources": [
@@ -49,29 +49,24 @@
                     "capacity": 0
                 },
                 "enableNonSslPort": false,
-                "redisConfiguration": {
-                    "maxclients": "256",
-                    "maxmemory-reserved": "2",
-                    "maxfragmentationmemory-reserved": "12",
-                    "maxmemory-delta": "2"
-                }
+                "redisConfiguration": {}
             }
         },
-        {
-            "type": "microsoft.insights/components",
-            "apiVersion": "2018-05-01-preview",
-            "name": "[parameters('components_roguelikecelebrationmud2_name')]",
-            "location": "eastus",
-            "kind": "web",
-            "properties": {
-                "Application_Type": "web",
-                "Flow_Type": "Bluefield",
-                "Request_Source": "rest",
-                "RetentionInDays": 90,
-                "publicNetworkAccessForIngestion": "Enabled",
-                "publicNetworkAccessForQuery": "Enabled"
-            }
-        },
+        // {
+        //     "type": "microsoft.insights/components",
+        //     "apiVersion": "2018-05-01-preview",
+        //     "name": "[parameters('components_roguelikecelebrationmud2_name')]",
+        //     "location": "eastus",
+        //     "kind": "web",
+        //     "properties": {
+        //         "Application_Type": "web",
+        //         "Flow_Type": "Bluefield",
+        //         "Request_Source": "rest",
+        //         "RetentionInDays": 90,
+        //         "publicNetworkAccessForIngestion": "Enabled",
+        //         "publicNetworkAccessForQuery": "Enabled"
+        //     }
+        // },
         {
             "type": "Microsoft.SignalRService/SignalR",
             "apiVersion": "2020-07-01-preview",
@@ -181,37 +176,37 @@
                 "targetWorkerSizeId": 0
             }
         },
-        {
-            "type": "microsoft.alertsmanagement/smartdetectoralertrules",
-            "apiVersion": "2019-06-01",
-            "name": "[parameters('smartdetectoralertrules_failure_anomalies___roguelikecelebrationmud2_name')]",
-            "location": "global",
-            "dependsOn": [
-                "[resourceId('microsoft.insights/components', parameters('components_roguelikecelebrationmud2_name'))]"
-            ],
-            "properties": {
-                "description": "Failure Anomalies notifies you of an unusual rise in the rate of failed HTTP requests or dependency calls.",
-                "state": "Enabled",
-                "severity": "Sev3",
-                "frequency": "PT1M",
-                "detector": {
-                    "id": "FailureAnomaliesDetector",
-                    "name": "Failure Anomalies",
-                    "description": "Detects if your application experiences an abnormal rise in the rate of HTTP requests or dependency calls that are reported as failed. The anomaly detection uses machine learning algorithms and occurs in near real time, therefore there's no need to define a frequency for this signal.<br/></br/>To help you triage and diagnose the problem, an analysis of the characteristics of the failures and related telemetry is provided with the detection. This feature works for any app, hosted in the cloud or on your own servers, that generates request or dependency telemetry - for example, if you have a worker role that calls <a class=\"ext-smartDetecor-link\" href=\\\"https://docs.microsoft.com/azure/application-insights/app-insights-api-custom-events-metrics#trackrequest\\\" target=\\\"_blank\\\">TrackRequest()</a> or <a class=\"ext-smartDetecor-link\" href=\\\"https://docs.microsoft.com/azure/application-insights/app-insights-api-custom-events-metrics#trackdependency\\\" target=\\\"_blank\\\">TrackDependency()</a>.<br/><br/><a class=\"ext-smartDetecor-link\" href=\\\"https://docs.microsoft.com/azure/azure-monitor/app/proactive-failure-diagnostics\\\" target=\\\"_blank\\\">Learn more about Failure Anomalies</a>",
-                    "supportedResourceTypes": [
-                        "ApplicationInsights"
-                    ]
-                },
-                "scope": [
-                    "[resourceId('microsoft.insights/components', parameters('components_roguelikecelebrationmud2_name'))]"
-                ],
-                "actionGroups": {
-                    "groupIds": [
-                        "[parameters('actiongroups_application_insights_smart_detection_externalid')]"
-                    ]
-                }
-            }
-        },
+        // {
+        //     "type": "microsoft.alertsmanagement/smartdetectoralertrules",
+        //     "apiVersion": "2019-06-01",
+        //     "name": "[parameters('smartdetectoralertrules_failure_anomalies___roguelikecelebrationmud2_name')]",
+        //     "location": "global",
+        //     "dependsOn": [
+        //         "[resourceId('microsoft.insights/components', parameters('components_roguelikecelebrationmud2_name'))]"
+        //     ],
+        //     "properties": {
+        //         "description": "Failure Anomalies notifies you of an unusual rise in the rate of failed HTTP requests or dependency calls.",
+        //         "state": "Enabled",
+        //         "severity": "Sev3",
+        //         "frequency": "PT1M",
+        //         "detector": {
+        //             "id": "FailureAnomaliesDetector",
+        //             "name": "Failure Anomalies",
+        //             "description": "Detects if your application experiences an abnormal rise in the rate of HTTP requests or dependency calls that are reported as failed. The anomaly detection uses machine learning algorithms and occurs in near real time, therefore there's no need to define a frequency for this signal.<br/></br/>To help you triage and diagnose the problem, an analysis of the characteristics of the failures and related telemetry is provided with the detection. This feature works for any app, hosted in the cloud or on your own servers, that generates request or dependency telemetry - for example, if you have a worker role that calls <a class=\"ext-smartDetecor-link\" href=\\\"https://docs.microsoft.com/azure/application-insights/app-insights-api-custom-events-metrics#trackrequest\\\" target=\\\"_blank\\\">TrackRequest()</a> or <a class=\"ext-smartDetecor-link\" href=\\\"https://docs.microsoft.com/azure/application-insights/app-insights-api-custom-events-metrics#trackdependency\\\" target=\\\"_blank\\\">TrackDependency()</a>.<br/><br/><a class=\"ext-smartDetecor-link\" href=\\\"https://docs.microsoft.com/azure/azure-monitor/app/proactive-failure-diagnostics\\\" target=\\\"_blank\\\">Learn more about Failure Anomalies</a>",
+        //             "supportedResourceTypes": [
+        //                 "ApplicationInsights"
+        //             ]
+        //         },
+        //         "scope": [
+        //             "[resourceId('microsoft.insights/components', parameters('components_roguelikecelebrationmud2_name'))]"
+        //         ],
+        //         "actionGroups": {
+        //             "groupIds": [
+        //                 "[parameters('actiongroups_application_insights_smart_detection_externalid')]"
+        //             ]
+        //         }
+        //     }
+        // },
         {
             "type": "Microsoft.Storage/storageAccounts/blobServices",
             "apiVersion": "2020-08-01-preview",
@@ -399,157 +394,6 @@
         {
             "type": "Microsoft.Web/sites/deployments",
             "apiVersion": "2018-11-01",
-            "name": "[concat(parameters('sites_roguelikecelebration_mud_name'), '/0b607cde201341fbbbb21fcf0ae3f761')]",
-            "location": "East US",
-            "dependsOn": [
-                "[resourceId('Microsoft.Web/sites', parameters('sites_roguelikecelebration_mud_name'))]"
-            ],
-            "properties": {
-                "status": 4,
-                "author_email": "N/A",
-                "author": "VS Code",
-                "deployer": "ZipDeploy",
-                "message": "Created via a push deployment",
-                "start_time": "2020-10-17T00:30:33.8952104Z",
-                "end_time": "2020-10-17T00:30:38.7467348Z",
-                "active": false
-            }
-        },
-        {
-            "type": "Microsoft.Web/sites/deployments",
-            "apiVersion": "2018-11-01",
-            "name": "[concat(parameters('sites_roguelikecelebration_mud_name'), '/3039dca94adb44ec9a6f9b69faf21b1d')]",
-            "location": "East US",
-            "dependsOn": [
-                "[resourceId('Microsoft.Web/sites', parameters('sites_roguelikecelebration_mud_name'))]"
-            ],
-            "properties": {
-                "status": 4,
-                "author_email": "N/A",
-                "author": "N/A",
-                "deployer": "GITHUB_ZIP_DEPLOY",
-                "message": "Created via a push deployment",
-                "start_time": "2020-10-17T18:33:08.0532406Z",
-                "end_time": "2020-10-17T18:33:12.4766437Z",
-                "active": false
-            }
-        },
-        {
-            "type": "Microsoft.Web/sites/deployments",
-            "apiVersion": "2018-11-01",
-            "name": "[concat(parameters('sites_roguelikecelebration_mud_name'), '/3d5efb576ef145cbb8666ca002dc86e6')]",
-            "location": "East US",
-            "dependsOn": [
-                "[resourceId('Microsoft.Web/sites', parameters('sites_roguelikecelebration_mud_name'))]"
-            ],
-            "properties": {
-                "status": 4,
-                "author_email": "N/A",
-                "author": "VS Code",
-                "deployer": "ZipDeploy",
-                "message": "Created via a push deployment",
-                "start_time": "2020-10-17T00:28:25.5702201Z",
-                "end_time": "2020-10-17T00:28:33.0261834Z",
-                "active": false
-            }
-        },
-        {
-            "type": "Microsoft.Web/sites/deployments",
-            "apiVersion": "2018-11-01",
-            "name": "[concat(parameters('sites_roguelikecelebration_mud_name'), '/614db0d53279453ba2ec316f2b48dfb3')]",
-            "location": "East US",
-            "dependsOn": [
-                "[resourceId('Microsoft.Web/sites', parameters('sites_roguelikecelebration_mud_name'))]"
-            ],
-            "properties": {
-                "status": 4,
-                "author_email": "N/A",
-                "author": "VS Code",
-                "deployer": "ZipDeploy",
-                "message": "Created via a push deployment",
-                "start_time": "2020-10-17T18:24:31.3799409Z",
-                "end_time": "2020-10-17T18:24:35.8956697Z",
-                "active": false
-            }
-        },
-        {
-            "type": "Microsoft.Web/sites/deployments",
-            "apiVersion": "2018-11-01",
-            "name": "[concat(parameters('sites_roguelikecelebration_mud_name'), '/65b81043c51ac95561ce07367d58b00265b7c5261601823481262')]",
-            "location": "East US",
-            "dependsOn": [
-                "[resourceId('Microsoft.Web/sites', parameters('sites_roguelikecelebration_mud_name'))]"
-            ],
-            "properties": {
-                "status": 4,
-                "author": "lazerwalker",
-                "deployer": "GitHub",
-                "message": "{\"type\":\"Deployment\",\"sha\":\"65b81043c51ac95561ce07367d58b00265b7c526\",\"repoName\":\"lazerwalker/azure-mud\",\"slotName\":\"production\"}",
-                "start_time": "2020-10-04T14:58:01.4910733Z",
-                "end_time": "2020-10-04T14:58:01.4910733Z",
-                "active": false
-            }
-        },
-        {
-            "type": "Microsoft.Web/sites/deployments",
-            "apiVersion": "2018-11-01",
-            "name": "[concat(parameters('sites_roguelikecelebration_mud_name'), '/6dddbfb30bec43f1bb695897d08d8710')]",
-            "location": "East US",
-            "dependsOn": [
-                "[resourceId('Microsoft.Web/sites', parameters('sites_roguelikecelebration_mud_name'))]"
-            ],
-            "properties": {
-                "status": 4,
-                "author_email": "N/A",
-                "author": "VS Code",
-                "deployer": "ZipDeploy",
-                "message": "Created via a push deployment",
-                "start_time": "2020-10-17T18:19:32.273075Z",
-                "end_time": "2020-10-17T18:19:36.3668956Z",
-                "active": false
-            }
-        },
-        {
-            "type": "Microsoft.Web/sites/deployments",
-            "apiVersion": "2018-11-01",
-            "name": "[concat(parameters('sites_roguelikecelebration_mud_name'), '/80f1eb2c212f45a586e4b81bccc3d18d')]",
-            "location": "East US",
-            "dependsOn": [
-                "[resourceId('Microsoft.Web/sites', parameters('sites_roguelikecelebration_mud_name'))]"
-            ],
-            "properties": {
-                "status": 4,
-                "author_email": "N/A",
-                "author": "N/A",
-                "deployer": "GITHUB_ZIP_DEPLOY",
-                "message": "Created via a push deployment",
-                "start_time": "2020-10-04T15:30:11.8928143Z",
-                "end_time": "2020-10-04T15:30:16.1992439Z",
-                "active": false
-            }
-        },
-        {
-            "type": "Microsoft.Web/sites/deployments",
-            "apiVersion": "2018-11-01",
-            "name": "[concat(parameters('sites_roguelikecelebration_mud_name'), '/a66155c16d2b4fd9a5cf70f612bf21e2')]",
-            "location": "East US",
-            "dependsOn": [
-                "[resourceId('Microsoft.Web/sites', parameters('sites_roguelikecelebration_mud_name'))]"
-            ],
-            "properties": {
-                "status": 4,
-                "author_email": "N/A",
-                "author": "N/A",
-                "deployer": "GITHUB_ZIP_DEPLOY",
-                "message": "Created via a push deployment",
-                "start_time": "2020-10-04T14:57:54.1520877Z",
-                "end_time": "2020-10-04T14:57:58.130367Z",
-                "active": false
-            }
-        },
-        {
-            "type": "Microsoft.Web/sites/deployments",
-            "apiVersion": "2018-11-01",
             "name": "[concat(parameters('sites_roguelikecelebration_mud_name'), '/ab6b3b6f99c57639d92d9f28f6868812815413c81602959607134')]",
             "location": "East US",
             "dependsOn": [
@@ -563,24 +407,6 @@
                 "start_time": "2020-10-17T18:33:27.4365926Z",
                 "end_time": "2020-10-17T18:33:27.4365926Z",
                 "active": true
-            }
-        },
-        {
-            "type": "Microsoft.Web/sites/deployments",
-            "apiVersion": "2018-11-01",
-            "name": "[concat(parameters('sites_roguelikecelebration_mud_name'), '/d2839096587e8179e5d3e26430e53edeab3060931601825422643')]",
-            "location": "East US",
-            "dependsOn": [
-                "[resourceId('Microsoft.Web/sites', parameters('sites_roguelikecelebration_mud_name'))]"
-            ],
-            "properties": {
-                "status": 4,
-                "author": "lazerwalker",
-                "deployer": "GitHub",
-                "message": "{\"type\":\"Deployment\",\"sha\":\"d2839096587e8179e5d3e26430e53edeab306093\",\"repoName\":\"lazerwalker/azure-mud\",\"slotName\":\"production\"}",
-                "start_time": "2020-10-04T15:30:26.9913585Z",
-                "end_time": "2020-10-04T15:30:26.9913585Z",
-                "active": false
             }
         },
         {
@@ -1008,20 +834,20 @@
                 "publicAccess": "None"
             }
         },
-        {
-            "type": "Microsoft.Storage/storageAccounts/fileServices/shares",
-            "apiVersion": "2020-08-01-preview",
-            "name": "[concat(parameters('storageAccounts_roguelikecelebrationmud2_name'), '/default/roguelikecelebration-mudf45b2e')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts/fileServices', parameters('storageAccounts_roguelikecelebrationmud2_name'), 'default')]",
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_roguelikecelebrationmud2_name'))]"
-            ],
-            "properties": {
-                "accessTier": "TransactionOptimized",
-                "shareQuota": 5120,
-                "enabledProtocols": "SMB"
-            }
-        },
+        // {
+        //     "type": "Microsoft.Storage/storageAccounts/fileServices/shares",
+        //     "apiVersion": "2020-08-01-preview",
+        //     "name": "[concat(parameters('storageAccounts_roguelikecelebrationmud2_name'), '/default/roguelikecelebration-mudf45b2e')]",
+        //     "dependsOn": [
+        //         "[resourceId('Microsoft.Storage/storageAccounts/fileServices', parameters('storageAccounts_roguelikecelebrationmud2_name'), 'default')]",
+        //         "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_roguelikecelebrationmud2_name'))]"
+        //     ],
+        //     "properties": {
+        //         "accessTier": "TransactionOptimized",
+        //         "shareQuota": 5120,
+        //         "enabledProtocols": "SMB"
+        //     }
+        // },
         {
             "type": "Microsoft.Storage/storageAccounts/tableServices/tables",
             "apiVersion": "2020-08-01-preview",
