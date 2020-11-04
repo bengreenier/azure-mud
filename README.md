@@ -28,8 +28,10 @@ As a warning, this project (and this README) are very much in the middle of tran
 This requires your own [Azure subscription](https://azure.com/free/?WT.mc_id=devto-blog-emwalker). As a warning: this costs money to run! If you don't already have an Azure account/subscription, you'll get a few hundred bucks to use your first month, but if that's not the case you will want to keep an eye on the fact that **running this backend will cost you actual money**. These costs are small for development purposes - you can use the free tier of both SignalR Service and Azure functions, you just need to pay for a small Redis instance.
 
 1. Deploy the `server` folder to a new Azure Function App instance you control. I recommend using VS Code and the VS Code Azure Functions extension. See the "Publish the project to Azure" section of [this tutorial](https://docs.microsoft.com/en-us/azure/azure-functions/functions-create-first-function-vs-code?pivots=programming-language-javascript?WT.mc_id=github-code-emwalker) for details. You can also use the Azure CLI or any other method.
+    - In the azure portal, enable web sockets for this function app in `Configuration > General`
 
 2) In the Azure Portal, sign up for a new [Azure SignalR Service](https://docs.microsoft.com/en-us/azure/azure-signalr/signalr-overview?WT.mc_id=github-code-emwalker) instance. For development purposes, you can probably start with the free tier.
+    - Set the server mode to `Serverless` in Settings.
 
 3) Grab the connection string from your Azure SignalR Service instance. Back in the settings for your Function App, go to the Configuration tab and add a Application Setting with the key `AzureSignalRConnectionString`
 
